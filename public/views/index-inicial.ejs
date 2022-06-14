@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Gastro Fapa - Início</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+
+  <style type="text/css">
+    body {
+      background-color: blue;
+    }
+  </style>
+  <!-- =======================================================
+  * Template Name: Restaurantly - v3.7.0
+  * Template URL: https://bootstrapmade.com/restaurantly-restaurant-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  <!-- ======= Top Bar ======= -->
+  <div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+
+      <div class="contact-info d-flex align-items-center">
+        <i class="bi bi-clock d-flex align-items-center ms-4"><span>Horário de funcionamento</span></i>
+      </div>
+
+      <div class="languages d-none d-md-flex align-items-center">
+        <ul>
+          <li>Pt-br</li>
+          <li><a href="#"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-cente">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+      <h1 class="logo me-auto me-lg-0"><a href="/">GastroFapa</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Inicio</a></li>
+          <li><a class="nav-link scrollto" href="#events">Restaurantes</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+      <a></a>
+      <!--<a class="book-a-table-btn scrollto d-none d-lg-flex" data-bs-toggle="modal" data-bs-target="#myModal">Entrar</a>-->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="heroini" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
+      <div class="row">
+        <div class="col-lg-8">
+          <h1>Bem vindo ao <span>GastroFapa</span></h1>
+          <h2>Conheça as opções gastronimicas no campus!</h2>
+
+          <div class="btns">
+            <a href="#events" class="btn-menu animated fadeInUp scrollto">Restaurantes</a>
+            <!--<a class="btn-book animated fadeInUp scrollto" data-bs-toggle="modal" data-bs-target="#myModal">Entrar</a> -->
+          </div>
+        </div>
+
+        <!-- ======= Youtube Video ======= -->
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Section ======= -->
+
+    <!-- ======= Why Us Section ======= -->
+
+    <!-- ======= Menu Section ======= -->
+    <!-- End Menu Section -->
+
+    <!-- ======= Specials Section ======= -->
+    
+    <!-- End Specials Section -->
+
+    <!-- ======= Events Section ======= -->
+    <section id="events" class="events">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Restaurantes</h2>
+          <p>Variadades gastronomicas da Fapa</p>
+        </div>
+
+        <div class="events-slider swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+
+            <% restaurantes.forEach(function(restaurante) { %>
+            <div class="swiper-slide">
+              <div class="row event-item">
+                <div class="col-lg-6">
+                  <img src="<%=restaurante.bglink %>" class="img-fluid" alt="">
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0 content">
+                  <a class= h2 href="/menu/p/<%=restaurante.nome%>"><%= restaurante.nome %></a>
+                  <div class="price">
+                    <p><span></span></p>
+                  </div>
+                  <p class="fst-italic"> <%= restaurante.descricao %> </p>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+            <% }); %>
+
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Events Section -->
+   
+    <!-- ======= Book A Table Section ======= -->
+
+    <!-- ======= Gallery Section ======= -->
+
+    <!-- ======= Contact Section ======= -->
+    
+    <!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-info">
+              <h3>Gastro Fapa</h3>
+              <p>
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; <strong><span>Gastro Fapa</span></strong>
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/restaurantly-restaurant-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">Gastro</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+ 
+  <!-- Loguin -->
+  <div class="modal" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title">Entrar</h5>
+         <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form action= "/user/signin" id = "loginForm" name = "loginForm" method="post">
+           <div class="mb-3">
+             <label class="form-label">Email:</label>
+             <input type="email" name="email" class="form-control" required>
+           </div>
+           <div class="mb-3">
+            <label class="form-label">Senha:</label>
+            <input type="password" name="senha" id="senha" class="form-control" required>
+           </div>
+           <div class="mb-3">
+            <button type="submit" id="login_button" class="btn btn-primary" value="Entrar">Entrar</button> 
+           </div>
+           <div class="modal-footer">
+           </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  <script>
+  $('#myModal').on('hidden.bs.modal', function () {
+    $(this).find("input,textarea,select").val('').end();
+  });
+  </script> 
+</body>
+
+</html>
