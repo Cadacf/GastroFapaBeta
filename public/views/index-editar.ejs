@@ -60,7 +60,7 @@
   <header id="header" class="fixed-top d-flex align-items-cente">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
 
-      <h1 class="logo me-auto me-lg-0"><a href="/"><%=restaurante.nome%></a></h1>
+      <h1 class="logo me-auto me-lg-0"><a href="/">GastroFapa</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -100,12 +100,12 @@
     <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
       <div class="row">
         <div class="col-lg-8">
-          <h1>Bem vindo ao <span>Restaurante</span></h1>
-          <h2>Proporcinando sabor e qualidade por x anos!</h2>
+          <h1>Bem vindo ao <span><%=restaurante.nome%> <a class="bi-pencil-square btn-lg h1" data-bs-toggle="modal" data-bs-target="#modalPerfil" data-descricao="<%=restaurante.descricao%>" data-imagem="<%=restaurante.bglink%>"><span></span></a></span></h1>
+          <h2><%=restaurante.descricao%></h2>
 
           <div class="btns">
             <a href="#menu" class="btn-menu animated fadeInUp scrollto">Cardápio</a>
-            <a href="#contact" class="btn-book animated fadeInUp scrollto">Localizacao</a>
+            <a href="#contact" class="btn-book animated fadeInUp scrollto">Localização</a>
           </div>
         </div>
 
@@ -142,8 +142,13 @@
               <div class="col-lg-6 menu-item filter-starters">
                 <img src="<%=temp %>" class="menu-img" alt="">
                 <div class="menu-content">
-                  <a><%=prato.nome %></a><span>$<%=prato.preco %>
-                  <a class="bi-pencil-square btn-lg" data-bs-toggle="modal" data-bs-target="#myModal"><span></span></a>
+                  <a><%=prato.nome %></a><span>R$<%=prato.preco %>
+                    <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModal"
+                    data-nome="<%=prato.nome %>"
+                    data-imagem="<%=prato.linkimagem %>"
+                    data-descricao="<%=prato.descricao %>"
+                    data-valor="<%=prato.preco %>"
+                    ></a>
                 </div>
                 <div class="menu-ingredients">
                   <%=prato.descricao %>
@@ -195,16 +200,22 @@
             <%cont = 1;%>
               <% pratos.forEach(function(especial){ %>
                 <% if(especial.esp){ %>
-                  <% if(prato.linkimagem != null){
-                    temp = prato.linkimagem;
+                  <% if(especial.linkimagem != null){
+                    temp = especial.linkimagem;
                   }; %>
                   <% switch(cont){ 
                       case 1: %>
                       <div class="tab-pane active show" id="tab-<%=cont %>">
                         <div class="row">
                           <div class="col-lg-8 details order-2 order-lg-1">
-                            <h3><%=especial.nome %> <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModal"></a></h3>
-                            <a>$<%=especial.preco %></a>
+                            <br>
+                            <h3><%=especial.nome %> <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModal"
+                              data-nome="<%=especial.nome%>"
+                              data-imagem="<%=especial.linkimagem%>"
+                              data-descricao="<%=especial.descricao %>"
+                              data-valor="<%=especial.preco %>"
+                              ></a></h3>
+                            <a>R$<%=especial.preco %></a>
                             <p class="fst-italic"><%=especial.descricao %></p>
                           </div>
                           <div class="col-lg-4 text-center order-1 order-lg-2">
@@ -217,8 +228,14 @@
                       <div class="tab-pane" id="tab-<%=cont %>">
                         <div class="row">
                           <div class="col-lg-8 details order-2 order-lg-1">
-                            <h3><%=especial.nome %> <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModal"></a></h3>
-                            <a>$<%=especial.preco %></a>
+                            <br>
+                            <h3><%=especial.nome %> <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModal"
+                              data-nome="<%=especial.nome %>"
+                              data-imagem="<%=especial.linkimagem %>"
+                              data-descricao="<%=especial.descricao %>"
+                              data-valor="<%=especial.preco %>"
+                              ></a></h3>
+                            <a>R$<%=especial.preco %></a>
                             <p class="fst-italic"><%=especial.descricao %></p>
                           </div>
                           <div class="col-lg-4 text-center order-1 order-lg-2">
@@ -349,26 +366,60 @@
          <h5 class="modal-title">Editando</h5>
          <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body container">
           <form>
-           <div class="mb-3">
-             <label class="form-label">Nome:</label>
-             <input type="text" name="txtNome" class="form-control" placeholder="nome">
+           <div class="modal-name mb-3">
+             <input type="text" name="txtNome" id="txtNome" class="form-control" placeholder="Nome">
+           </div>
+           <div class="modal-value mb-3">
+            <input type="number" name="txtValor" id="txtValor" class="form-control" placeholder="Valor">
            </div>
            <div class="mb-3">
-            <label class="form-label">Valor:</label>
-            <input type="number" name="txtValor" class="form-control" placeholder="Valor">
+            <textarea class="form-control" name="txtDescricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
            </div>
-           <div class="mb-3">
-            <label class="form-label">TextoGrande:</label>
-            <textarea class="form-control" name="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
+           <div class="modal-img row mb-3">
+            <div class="col-lg-3">
+              <img style = "width: 85px; height: 85px; ; border-radius: 50%; float: left; border: 5px solid rgba(255, 255, 255, 0.2);"src="https://imgur.com/FZ6RVun.jpg" id="img" name="img" height="200px">           
+              <input type="file" id="file">
+             </div>
            </div>
-           <div class="mb-3">
-            <input type="file" id="file">
-            <img style = "width: 70px; height: 70px; border-radius: 50%; float: left; border: 5px solid rgba(255, 255, 255, 0.2);"src="https://i.imgur.com/QrsQPUY.jpeg" id="img" height="200px">
-            <p id="url"></p>
+           <div class="mb-3">  
+            <br>     
+            <button type="submit" name="Deletar" class="btn btn-danger view_data">Deletar</button>
+            <button type="submit" name="Salvar" class="btn btn-primary view_data">Salvar</button>
            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalPerfil" tabindex="-1" role="dialog" hidden-bs-modal="modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title">Editando</h5>
+         <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body container">
+          <form>
+             <div>
+             <label class="form-label">Imagem de perfil:</label>
+            </div>
+            <div class="row mb-3">
+             <div class="d-flex justify-content-center align-items-center mb-3">
+               <img class="border border-secondary border-1 rounded" style="border:0; width: 90%; height: 235px;"src="https://imgur.com/FZ6RVun.jpg" id="img" height="235px">           
+             </div>
+             <input type="file" id="file">
+            </div>
            <div class="mb-3">
+            <label class="form-label">Diga algo sobre seu restaurante:</label>
+            <textarea class="form-control" name="txtDescricaoPerfil" id="txtDescricaoPerfil" placeholder="De uma descricao ao item!"></textarea>
+           </div>
+           <div class="mb-3">  
+            <br>     
             <button type="submit" name="Deletar" class="btn btn-danger view_data">Deletar</button>
             <button type="submit" name="Salvar" class="btn btn-primary view_data">Salvar</button>
            </div>
@@ -381,10 +432,42 @@
   </div>
 
 <script>
-  $('#myModal').on('hidden.bs.modal', function () {
-    $(this).find("input,textarea,select").val('').end();
-});
+  let myModal = document.getElementById('myModal')
+  myModal.addEventListener('show.bs.modal', function (event) {
+  let button = event.relatedTarget
+  let nome = button.getAttribute('data-nome')
+  let valor = button.getAttribute('data-valor')
+  let descricao = button.getAttribute('data-descricao')
+  let imagem = button.getAttribute('data-imagem')
+  valor = valor.replace(',','.')
+  
+  let modalBodynome = myModal.querySelector('.modal-name input')
+  let modalBodyvalor = myModal.querySelector('.modal-value input')
+  let modalBodydescricao = myModal.querySelector('.modal-body textarea')
+  let modalBodyimagem = myModal.querySelector('.modal-img img')
+
+  modalBodynome.value = nome
+  modalBodyvalor.value = valor
+  modalBodydescricao.value = descricao
+  modalBodyimagem.src = imagem
+})
 </script>
+
+<script>
+  let modalPerfil = document.getElementById('modalPerfil')
+  modalPerfil.addEventListener('show.bs.modal', function (event) {
+  let button = event.relatedTarget
+  let descricao = button.getAttribute('data-descricao')
+  let imagem = button.getAttribute('data-imagem')
+  
+  let modalBodydescricao = modalPerfil.querySelector('.modal-body textarea')
+  let modalBodyimagem = modalPerfil.querySelector('.modal-body img')
+
+  modalBodydescricao.value = descricao
+  modalBodyimagem.src = imagem
+})
+</script>
+
 <script>
   const file = document.getElementById("file")
   const img = document.getElementById("img")

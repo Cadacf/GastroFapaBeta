@@ -108,6 +108,69 @@ router.post('/signup', (req, res) => {
 
 })
 
+//Update
+router.post('/update', function (req, res, next) {
+    const token = req.header('X-Access-Token');
+    jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
+        console.log(decoded);
+        console.log(decoded.exp);
+        console.log(decoded.iat);
+        let expData = new Date();
+        let isTime = new Date();
+        expData.setTime = new Date(decoded.exp);
+        isTime.setTime = new Date(decoded.iat);
+        console.log(expData);
+        console.log(isTime);
+        if (errorVerify) {
+            res.json({
+                status: "Falha",
+                message: "Ocorreu um erro (update)"
+            })
+        } else {
+            Session.find({ 'email': decoded.id }, function (errorSession, data) {
+                if (data.length > 0) {
+
+                    User.findOne({ 'email': decoded.id }, function (errorUser, funduser) {
+
+                        console.log(funduser.email);
+                        if (errorUser || funduser == null) {
+                            return res.json({
+                                status: "erro",
+                                message: "Documento vazio (User Update)",
+                            })
+                        } else if (decoded.id == funduser.email) {
+
+                            funduser.nome = req.body.nome;
+                            funduser.descricao = req.body.descricao;
+                            funduser.bglink = req.body.bglink;
+                            funduser.mapalink = req.body.mapalink;
+                            funduser.horario = req.body.horario;
+                            funduser.telefone = req.body.telefone;
+
+                            funduser.save();
+
+                            return res.json({
+                                status: "Sucesso",
+                                message: "Usuário atualizado (User Update)",
+                            })
+                        } else {
+                            return res.json({
+                                status: "erro",
+                                message: "Usuário não corresponde (User Update)",
+                            })
+                        }
+                    })
+                } else {
+                    res.json({
+                        status: "Falha",
+                        message: "Usuário invalido (User Update)"
+                    })
+                }
+            });
+        }
+    })
+})
+
 //Signin
 router.post('/signin', (req, res) => {
     console.log(req.body);
