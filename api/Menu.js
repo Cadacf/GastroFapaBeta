@@ -16,6 +16,7 @@ router.get('/p/:nome', function (req, res) {
     });
 });
 
+/*
 router.get('/e/:nome', function (req, res) {
     User.findOne({ 'nome': req.params.nome }, function (err, user) {
         Menu.find({ 'email': user.email }, function (errorFindById, menus) {
@@ -23,20 +24,22 @@ router.get('/e/:nome', function (req, res) {
         })
     });
 });
+*/
 
 router.get('/perfil', function (req, res) {
-    const token = req.header('X-Access-Token');
+    //console.log(req.cookies['userToken'])
+    const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (err, decoded) {
         if (err) {
-            res.json({
-                status: "Falha",
-                message: "Ocorreu um erro"
-            })
+            console.log("Er (perfil)")
+            res.renderpath.join(__dirname + "/../public/views/index-inicial.ejs")
         } else {
             Session.find({ 'email': decoded.id }, function (err, data) {
                 if (data.length > 0) {
-                    User.findOne({ 'email': decoded.id }, function (errorUser, funduser) {
-                        res.render(path.join(__dirname + "/../public/views/index-editar.ejs"), { pratos: menus });
+                    User.findOne({ 'email': decoded.id }, function (errorUser, user) {
+                        Menu.find({ 'email': user.email }, function (errorFindById, menus) {
+                            res.render(path.join(__dirname + "/../public/views/index-editar.ejs"), { pratos: menus, restaurante: user });
+                        })
                     })
                 } else {
                     res.json({
@@ -97,7 +100,7 @@ router.get('/', (req, res) => {
 */
 
 router.post('/new', (req, res) => {
-    const token = req.header('X-Access-Token');
+    const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
         if (errorVerify) {
             res.json({
@@ -127,11 +130,8 @@ router.post('/new', (req, res) => {
                         user.save();
                         menu.save();
 
-                        res.json({
-                            status: "foi",
-                            message: "Mesmo (new)",
-                            //data: menu
-                        })
+                        console.log("Menu Criado (new)")
+                        res.redirect('/menu/perfil')
                     })
                 } else {
                     res.json({
@@ -145,7 +145,7 @@ router.post('/new', (req, res) => {
 })
 
 router.post('/edit', function (req, res, next) {
-    const token = req.header('X-Access-Token');
+    const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
         if (errorVerify) {
             res.json({
@@ -192,7 +192,7 @@ router.post('/edit', function (req, res, next) {
 
 router.post('/delete', function (req, res, next) {
 
-    const token = req.header('X-Access-Token');
+    const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
         if (errorVerify) {
             res.json({

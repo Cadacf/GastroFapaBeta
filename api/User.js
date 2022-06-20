@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken');
 
 //MongodDb user model
 const User = require('./../models/User');
-
+const Menu = require('./../models/Menu');
 //Password
 const bcrypt = require('bcrypt');
 const Session = require('../models/Session');
 const { Model } = require('mongoose');
-
+const path = require("path");
 /*
 router.get('/p/:nome', function(req, res) {
     User.findOne({ 'nome': req.params.nome }, function (err, data) {
@@ -19,7 +19,6 @@ router.get('/p/:nome', function(req, res) {
     });
 });
 */
-
 
 //Signup
 router.post('/signup', (req, res) => {
@@ -101,7 +100,7 @@ router.post('/signup', (req, res) => {
             console.log(err);
             res.json({
                 status: "Falha",
-                message: "Ocorreu um erro"
+                message: "Ocorreu um erro (Sg)"
             })
         })
     }
@@ -197,22 +196,37 @@ router.post('/signin', (req, res) => {
                             //senha encontrada
                             const id = data[0].email
                             const token = jwt.sign({ id }, process.env.SECRET, {
-                                expiresIn: 30000 // expires in 5min
+                                expiresIn: '30m' // expires in 5min
                             });
                             let item = {
                                 email: id,
                                 token: token
                             };
                             Session.find({ 'email': id }, function (err, data) {
+                                //console.log(data)
                                 if (data.length > 0) {
-                                    return res.json({
-                                        status: "Falha",
-                                        message: "Usuário já logado"
-                                    })
+                                    /*
+                                    res.json({
+                                        success: true,
+                                        message: 'Enjoy your token!',
+                                        token: token // este token é para guardar!
+                                    });
+                                    */
+                                    //console.log(token)
+                                    res.cookie("userToken", token);
+                                    res.redirect('/menu/perfil')
                                 } else {
                                     let data = new Session(item);
                                     data.save();
-                                    return res.json({ auth: true, token: token });
+                                    /*
+                                    res.json({
+                                        success: true,
+                                        message: 'Enjoy your token!',
+                                        token: token // este token é para guardar!
+                                    });
+                                    */
+                                    res.cookie("userToken", token);
+                                    res.redirect('/menu/perfil')
                                 }
                             });
                         } else {
@@ -251,7 +265,7 @@ router.get('/logout', (req, res) => {
         if (err) {
             res.json({
                 status: "Falha",
-                message: "Ocorreu um erro"
+                message: "Ocorreu um erro (Lg)"
             })
         } else {
             Session.find({ 'email': decoded.id }, function (err, data) {

@@ -367,20 +367,23 @@
          <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body container">
-          <form>
+          <form action= "/menu/new" id = "Createmenu" name = "CreatemenuForm" method="post">
            <div class="modal-name mb-3">
-             <input type="text" name="txtNome" id="txtNome" class="form-control" placeholder="Nome">
+             <input type="text" name="nome" id="txtNome" class="form-control" placeholder="Nome">
            </div>
            <div class="modal-value mb-3">
-            <input type="number" name="txtValor" id="txtValor" class="form-control" placeholder="Valor">
+            <input type="number" name="preco" id="txtValor" class="form-control" placeholder="Valor">
            </div>
            <div class="mb-3">
-            <textarea class="form-control" name="txtDescricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
+            <textarea class="form-control" name="descricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
            </div>
            <div class="modal-img row mb-3">
             <div class="col-lg-3">
               <img style = "width: 85px; height: 85px; ; border-radius: 50%; float: left; border: 5px solid rgba(255, 255, 255, 0.2);"src="https://imgur.com/FZ6RVun.jpg" id="img" name="img" height="200px">           
               <input type="file" id="file">
+             </div>
+             <div class="invisible">
+              <p name="url" id="url"></p>
              </div>
            </div>
            <div class="mb-3">  
@@ -404,13 +407,16 @@
          <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body container">
-          <form>
+          <form action= "/menu/new" id = "Createmenu" name = "CreatemenuForm" method="post">
              <div>
              <label class="form-label">Imagem de perfil:</label>
             </div>
             <div class="row mb-3">
              <div class="d-flex justify-content-center align-items-center mb-3">
                <img class="border border-secondary border-1 rounded" style="border:0; width: 90%; height: 235px;"src="https://imgur.com/FZ6RVun.jpg" id="img" height="235px">           
+             </div>
+             <div class="invisible">
+              <p name="url" id="url"></p>
              </div>
              <input type="file" id="file">
             </div>
