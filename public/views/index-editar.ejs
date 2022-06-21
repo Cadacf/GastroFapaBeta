@@ -128,7 +128,12 @@
 
         <div class="section-title">
           <h2>Cárdapio</h2>
-          <p>Edite e adicione itens <a class="bi-plus-circle" data-bs-toggle="modal" data-bs-target="#myModal"><span></span></a></p>
+          <p>Edite ou crie pratos e especiais <a class="bi-plus-circle" data-bs-toggle="modal" data-bs-target="#myModal"
+            data-nome=""
+            data-imagem=""
+            data-descricao=""
+            data-valor=""
+            ><span></span></a></p>
         </div>
 
 
@@ -143,7 +148,7 @@
                 <img src="<%=temp %>" class="menu-img" alt="">
                 <div class="menu-content">
                   <a><%=prato.nome %></a><span>R$<%=prato.preco %>
-                    <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModal"
+                    <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModaleditar"
                     data-nome="<%=prato.nome %>"
                     data-imagem="<%=prato.linkimagem %>"
                     data-descricao="<%=prato.descricao %>"
@@ -169,7 +174,7 @@
 
         <div class="section-title">
           <h2>Especias</h2>
-          <p>Edite e adicione especialidades <a class="bi-plus-circle" data-bs-toggle="modal" data-bs-target="#myModal"></a></p>
+          <p>Edite suas especialidades</p>
         </div>
 
         <div class="row" data-aos="fade-up" data-aos-delay="100">
@@ -209,11 +214,12 @@
                         <div class="row">
                           <div class="col-lg-8 details order-2 order-lg-1">
                             <br>
-                            <h3><%=especial.nome %> <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModal"
+                            <h3><%=especial.nome %> <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModaleditar"
                               data-nome="<%=especial.nome%>"
                               data-imagem="<%=especial.linkimagem%>"
                               data-descricao="<%=especial.descricao %>"
                               data-valor="<%=especial.preco %>"
+                              data-check="checked"
                               ></a></h3>
                             <a>R$<%=especial.preco %></a>
                             <p class="fst-italic"><%=especial.descricao %></p>
@@ -229,11 +235,12 @@
                         <div class="row">
                           <div class="col-lg-8 details order-2 order-lg-1">
                             <br>
-                            <h3><%=especial.nome %> <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModal"
+                            <h3><%=especial.nome %> <a class="bi-pencil-square" data-bs-toggle="modal" data-bs-target="#myModaleditar"
                               data-nome="<%=especial.nome %>"
                               data-imagem="<%=especial.linkimagem %>"
                               data-descricao="<%=especial.descricao %>"
                               data-valor="<%=especial.preco %>"
+                              data-check="checked"
                               ></a></h3>
                             <a>R$<%=especial.preco %></a>
                             <p class="fst-italic"><%=especial.descricao %></p>
@@ -377,6 +384,58 @@
            <div class="mb-3">
             <textarea class="form-control" name="descricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
            </div>
+           <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              É um especial? 
+            </label>
+          </div>
+           <div class="modal-img row mb-3">
+            <div class="col-lg-3">
+              <img style = "width: 85px; height: 85px; ; border-radius: 50%; float: left; border: 5px solid rgba(255, 255, 255, 0.2);"src="https://imgur.com/FZ6RVun.jpg" id="img" name="img" height="200px">           
+              <input type="file" id="file">
+             </div>
+             <div class="invisible">
+              <p name="url" id="url"></p>
+             </div>
+           </div>
+           <div class="mb-3">  
+            <br>     
+            <button type="submit" name="Deletar" class="btn btn-danger view_data">Deletar</button>
+            <button type="submit" name="Salvar" class="btn btn-primary view_data">Salvar</button>
+           </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="myModaleditar" tabindex="-1" role="dialog" hidden-bs-modal="modal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title">Editando</h5>
+         <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body container">
+          <form action= "/menu/edit" id = "Createmenu" name = "CreatemenuForm" method="post">
+           <div class="modal-name mb-3">
+             <input type="text" name="nome" id="txtNome" class="form-control" placeholder="Nome">
+           </div>
+           <div class="modal-value mb-3">
+            <input type="number" name="preco" id="txtValor" class="form-control" placeholder="Valor">
+           </div>
+           <div class="mb-3">
+            <textarea class="form-control" name="descricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
+           </div>
+           <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+              É um especial? 
+            </label>
+          </div>
            <div class="modal-img row mb-3">
             <div class="col-lg-3">
               <img style = "width: 85px; height: 85px; ; border-radius: 50%; float: left; border: 5px solid rgba(255, 255, 255, 0.2);"src="https://imgur.com/FZ6RVun.jpg" id="img" name="img" height="200px">           
@@ -407,7 +466,7 @@
          <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body container">
-          <form action= "/menu/new" id = "Createmenu" name = "CreatemenuForm" method="post">
+          <form action= "/user/update" id = "Createmenu" name = "CreatemenuForm" method="post">
              <div>
              <label class="form-label">Imagem de perfil:</label>
             </div>
@@ -445,17 +504,49 @@
   let valor = button.getAttribute('data-valor')
   let descricao = button.getAttribute('data-descricao')
   let imagem = button.getAttribute('data-imagem')
+  let check = button.getAttribute('data-check')
   valor = valor.replace(',','.')
   
   let modalBodynome = myModal.querySelector('.modal-name input')
   let modalBodyvalor = myModal.querySelector('.modal-value input')
   let modalBodydescricao = myModal.querySelector('.modal-body textarea')
   let modalBodyimagem = myModal.querySelector('.modal-img img')
+  let modalBodyimageminput = myModaleditar.querySelector('.modal-img input')
+  let modalBodycheck = myModal.querySelector('.form-check input')
 
   modalBodynome.value = nome
   modalBodyvalor.value = valor
   modalBodydescricao.value = descricao
   modalBodyimagem.src = imagem
+  modalBodyimageminput = imagem
+  modalBodycheck.checked = check
+})
+</script>
+
+<script>
+  let myModaleditar = document.getElementById('myModaleditar')
+  myModaleditar.addEventListener('show.bs.modal', function (event) {
+  let button = event.relatedTarget
+  let nome = button.getAttribute('data-nome')
+  let valor = button.getAttribute('data-valor')
+  let descricao = button.getAttribute('data-descricao')
+  let imagem = button.getAttribute('data-imagem')
+  let check = button.getAttribute('data-check')
+  valor = valor.replace(',','.')
+  
+  let modalBodynome = myModaleditar.querySelector('.modal-name input')
+  let modalBodyvalor = myModaleditar.querySelector('.modal-value input')
+  let modalBodydescricao = myModaleditar.querySelector('.modal-body textarea')
+  let modalBodyimagem = myModaleditar.querySelector('.modal-img img')
+  let modalBodyimageminput = myModaleditar.querySelector('.modal-img input')
+  let modalBodycheck = myModaleditar.querySelector('.form-check input')
+
+  modalBodynome.value = nome
+  modalBodyvalor.value = valor
+  modalBodydescricao.value = descricao
+  modalBodyimagem.src = imagem
+  modalBodyimageminput = imagem
+  modalBodycheck.checked = check
 })
 </script>
 
