@@ -21,7 +21,7 @@ router.get('/p/:nome', function(req, res) {
 */
 
 //Signup
-router.post('/signup', (req, res) => {
+router.post('/signup', checkRegister, (req, res) => {
     let { nome, email, senha, descricao, bglink, mapalink, horario, telefone } = req.body;
     nome = nome.trim();
     email = email.trim();
@@ -108,9 +108,10 @@ router.post('/signup', (req, res) => {
 })
 
 //Update
-router.post('/update', function (req, res, next) {
-    const token = req.header('X-Access-Token');
+router.post('/update', (req, res) => {
+    const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
+        /*
         console.log(decoded);
         console.log(decoded.exp);
         console.log(decoded.iat);
@@ -120,11 +121,10 @@ router.post('/update', function (req, res, next) {
         isTime.setTime = new Date(decoded.iat);
         console.log(expData);
         console.log(isTime);
+        */
         if (errorVerify) {
-            res.json({
-                status: "Falha",
-                message: "Ocorreu um erro (update)"
-            })
+            console.log("Ocorreu um erro (update)")
+            res.redirect('/')
         } else {
             Session.find({ 'email': decoded.id }, function (errorSession, data) {
                 if (data.length > 0) {
@@ -133,10 +133,8 @@ router.post('/update', function (req, res, next) {
 
                         console.log(funduser.email);
                         if (errorUser || funduser == null) {
-                            return res.json({
-                                status: "erro",
-                                message: "Documento vazio (User Update)",
-                            })
+                            console.log("Documento vazio (Update)")
+                            res.redirect('/')
                         } else if (decoded.id == funduser.email) {
 
                             funduser.nome = req.body.nome;
@@ -148,22 +146,16 @@ router.post('/update', function (req, res, next) {
 
                             funduser.save();
 
-                            return res.json({
-                                status: "Sucesso",
-                                message: "Usuário atualizado (User Update)",
-                            })
+                            console.log("Usuário atualizado (Update)")
+                            res.redirect('/')
                         } else {
-                            return res.json({
-                                status: "erro",
-                                message: "Usuário não corresponde (User Update)",
-                            })
+                            console.log("Usuário não corresponde (Update)")
+                            res.redirect('/')
                         }
                     })
                 } else {
-                    res.json({
-                        status: "Falha",
-                        message: "Usuário invalido (User Update)"
-                    })
+                    console.log("Usuário invalido (Update)")
+                    res.redirect('/')
                 }
             });
         }
@@ -179,10 +171,8 @@ router.post('/signin', (req, res) => {
 
 
     if (email == "" || senha == "") {
-        res.json({
-            status: "Falha",
-            message: "Credenciais vazias"
-        })
+        console.log("Credenciais vazias")
+        res.redirect('/')
     } else {
         //Checando a existencia do usuário
         User.find({ email })
@@ -213,7 +203,7 @@ router.post('/signin', (req, res) => {
                                     });
                                     */
                                     //console.log(token)
-                                    res.cookie("userToken", token);
+                                    res.cookie("userToken", token, {maxAge: 1800000});
                                     res.redirect('/menu/perfil')
                                 } else {
                                     let data = new Session(item);
@@ -230,60 +220,58 @@ router.post('/signin', (req, res) => {
                                 }
                             });
                         } else {
-                            res.json({
-                                status: "Falha",
-                                message: "Senha invalida"
-                            })
+                            console.log("Senha invalida")
+                            res.redirect('/')
                         }
                     })
                         .catch(err => {
-                            res.json({
-                                status: "Falha",
-                                message: "Erro na comparacao de senha"
-                            })
+                            console.log("Erro na comparacao de senha")
+                            res.redirect('/')
                         })
                 } else {
-                    res.json({
-                        status: "Falha",
-                        message: "Credenciais invalidas"
-                    })
+                    console.log("Credenciais invalidas")
+                    res.redirect('/')
                 }
             })
             .catch(err => {
-                res.json({
-                    status: "Falha",
-                    message: "Erro na verificacao de existencai do usuario"
-                })
+                console.log("Erro na verificacao de existencai do usuario")
+                res.redirect('/')
             })
     }
 })
 
 //logout
 router.get('/logout', (req, res) => {
-    const token = req.header('X-Access-Token');
+    const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (err, decoded) {
         if (err) {
-            res.json({
-                status: "Falha",
-                message: "Ocorreu um erro (Lg)"
-            })
+            console.log("Erro no Logout (logout)")
+            res.redirect('/')
         } else {
             Session.find({ 'email': decoded.id }, function (err, data) {
                 if (data.length > 0) {
                     Session.findByIdAndRemove(data[0]._id).exec();
-                    res.json({
-                        status: "Sucesso",
-                        message: "Deslogado"
-                    })
+                    console.log("Deslogado com sucesso (logout)")
+                    res.clearCookie('userToken');
+                    res.redirect('/')
                 } else {
-                    res.json({
-                        status: "Falha",
-                        message: "Não está logado"
-                    })
+                    console.log("Sessão não encontrada (logout)")
+                    res.redirect('/')
                 }
             })
         }
     })
 })
+
+function checkRegister(req, res, next) {
+    let registerCheck = false;
+    if (registerCheck) {
+        console.log("Registro Ativado")
+        next()
+    }else{
+        console.log("Registro desativado")
+        return res.redirect('/')
+    }
+}
 
 module.exports = router;

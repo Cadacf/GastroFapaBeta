@@ -32,7 +32,7 @@ router.get('/perfil', function (req, res) {
     jwt.verify(token, process.env.SECRET, function (err, decoded) {
         if (err) {
             console.log("Er (perfil)")
-            res.renderpath.join(__dirname + "/../public/views/index-inicial.ejs")
+            res.redirect('/')
         } else {
             Session.find({ 'email': decoded.id }, function (err, data) {
                 if (data.length > 0) {
@@ -42,10 +42,8 @@ router.get('/perfil', function (req, res) {
                         })
                     })
                 } else {
-                    res.json({
-                        status: "Falha",
-                        message: "Não está logado"
-                    });
+                    console.log("Er 2 (perfil)")
+                    res.redirect('/')
                 }
             });
         }
@@ -103,10 +101,8 @@ router.post('/new', (req, res) => {
     const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
         if (errorVerify) {
-            res.json({
-                status: "Falha",
-                message: "Ocorreu um erro (new)"
-            })
+            console.log("Erro na criação de menus (new)")
+            res.redirect('/menu/perfil')
         } else {
             Session.find({ 'email': decoded.id }, function (errorSession, data) {
                 if (data.length > 0) {
@@ -134,24 +130,20 @@ router.post('/new', (req, res) => {
                         res.redirect('/menu/perfil')
                     })
                 } else {
-                    res.json({
-                        status: "Falha",
-                        message: "Usuário invalido (new)"
-                    })
+                    console.log("Erro sessão não encontrada (new)")
+                    res.redirect('/menu/perfil')
                 }
             });
         }
     })
 })
 
-router.post('/edit', function (req, res, next) {
+router.post('/edit', (req, res) => {
     const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
         if (errorVerify) {
-            res.json({
-                status: "Falha",
-                message: "Ocorreu um erro (edit)"
-            })
+            console.log("Erro na edição de menus (edit)")
+            res.redirect('/menu/perfil')
         } else {
             Session.find({ 'email': decoded.id }, function (errorSession, data) {
                 if (data.length > 0) {
@@ -159,46 +151,37 @@ router.post('/edit', function (req, res, next) {
 
                     Menu.findById(id, function (errorFindById, doc) {
                         if (errorFindById || doc == null) {
-                            return res.json({
-                                status: "erro",
-                                message: "Deu merda (edit)",
-                            })
+                            console.log("Menu não encontrado (edit)")
+                            res.redirect('/menu/perfil')
                         } else if (decoded.id == doc.email) {
                             doc.nome = req.body.nome;
                             doc.preco = req.body.preco;
                             doc.descricao = req.body.descricao;
+                            doc.linkimagem = req.body.linkimagem;
+                            doc.esp = req.body.esp;
                             doc.save();
-                            return res.json({
-                                status: "Sucesso",
-                                message: "Editou",
-                            })
+                            console.log("Menu Criado (new)")
+                            res.redirect('/menu/perfil')
                         } else {
-                            return res.json({
-                                status: "erro",
-                                message: "Usuário não corresponde (edit)",
-                            })
+                            console.log("Usuário não corresponde (edit)")
+                            res.redirect('/menu/perfil')
                         }
                     })
                 } else {
-                    res.json({
-                        status: "Falha",
-                        message: "Usuário invalido (edit)"
-                    })
+                    console.log("Usuário invalido (edit)")
+                    res.redirect('/menu/perfil')
                 }
             });
         }
     })
 });
 
-router.post('/delete', function (req, res, next) {
-
+router.post('/delete', (req, res) => {
     const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
         if (errorVerify) {
-            res.json({
-                status: "Falha",
-                message: "Ocorreu um erro"
-            })
+            console.log("Erro na exclusão de menus (edit)")
+            res.redirect('/menu/perfil')
         } else {
             Session.find({ 'email': decoded.id }, function (errorSession, data) {
                 if (data.length > 0) {
@@ -206,17 +189,13 @@ router.post('/delete', function (req, res, next) {
 
                     Menu.findById(id, function (errorFindById, doc) {
                         if (errorFindById || doc == null) {
-                            return res.json({
-                                status: "erro",
-                                message: "Deu merda (delet)",
-                            })
+                            console.log("Menu não encontrado (delete)")
+                            res.redirect('/menu/perfil')
                         } else if (decoded.id == doc.email) {
                             User.findOne({ 'email': decoded.id }, function (errorDelet, user) {
                                 if (errorDelet) {
-                                    return res.json({
-                                        status: "erro",
-                                        message: "Não conseguio deletar",
-                                    })
+                                    console.log("Usuário não encontrado (delete)")
+                                    res.redirect('/menu/perfil')
                                 } else {
                                     Menu.findByIdAndRemove(id).exec();
                                     const index = user.menu.indexOf(doc._id);
@@ -224,24 +203,18 @@ router.post('/delete', function (req, res, next) {
                                         user.menu.splice(index, 1);
                                     }
                                     user.save();
-                                    return res.json({
-                                        status: "Sucesso",
-                                        message: "Deletado",
-                                    })
+                                    console.log("Menu deletado com sucesso (delet)")
+                                    res.redirect('/menu/perfil')
                                 }
                             })
                         } else {
-                            return res.json({
-                                status: "erro",
-                                message: "Usuário não corresponde (delet)",
-                            })
+                            console.log("Usuário não corresponde (delet)")
+                            res.redirect('/menu/perfil')
                         }
                     })
                 } else {
-                    res.json({
-                        status: "Falha",
-                        message: "Usuário invalido (delet)"
-                    })
+                    console.log("Usuário invalido (delet)")
+                    res.redirect('/menu/perfil')
                 }
             });
         }
