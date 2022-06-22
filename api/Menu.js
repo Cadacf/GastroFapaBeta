@@ -115,7 +115,7 @@ router.post('/new', (req, res) => {
                             preco: req.body.preco,
                             descricao: req.body.descricao,
                             linkimagem: req.body.linkimagem,
-                            esp: req.body.esp
+                            esp: req.body.esp ? true : false,
                         };
 
                         let user = new User(funduser);
@@ -148,6 +148,7 @@ router.post('/edit', (req, res) => {
             Session.find({ 'email': decoded.id }, function (errorSession, data) {
                 if (data.length > 0) {
                     let id = req.body._id;
+                    console.log(id)
 
                     Menu.findById(id, function (errorFindById, doc) {
                         if (errorFindById || doc == null) {

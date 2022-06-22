@@ -137,17 +137,17 @@ router.post('/update', (req, res) => {
                             res.redirect('/')
                         } else if (decoded.id == funduser.email) {
 
-                            funduser.nome = req.body.nome;
-                            funduser.descricao = req.body.descricao;
-                            funduser.bglink = req.body.bglink;
-                            funduser.mapalink = req.body.mapalink;
-                            funduser.horario = req.body.horario;
-                            funduser.telefone = req.body.telefone;
+                            if(req.body.descricao != null){
+                                funduser.descricao = req.body.descricao;
+                            }
+                            if(req.body.bglink != null){
+                                funduser.bglink = req.body.bglink;
+                            }                         
 
                             funduser.save();
 
                             console.log("Usuário atualizado (Update)")
-                            res.redirect('/')
+                            res.redirect('/menu/perfil')
                         } else {
                             console.log("Usuário não corresponde (Update)")
                             res.redirect('/')
