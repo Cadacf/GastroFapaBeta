@@ -435,10 +435,7 @@
            <div class="modal-img row mb-3">
             <div class="col-lg-3">          
               <input type="file" id="file" name="file">
-             </div>
-             <div class="invisible">
-              <p name="url" id="url"></p>
-             </div>
+            </div>
            </div>
            <div class="modal-idprato invisible">
             <input type="text" name="idprato" id="idprato" class="form-control" placeholder="IdPrato">
@@ -468,7 +465,7 @@
              <div>
              <label class="form-label">Imagem de perfil:</label>
             </div>
-            <div class="row mb-3">
+            <div class="modal-img row mb-3">
              <input type="file" id="file" name="file">
             </div>
            <div class="mb-3">
@@ -501,7 +498,9 @@
   let modalBodyvalor = myModal.querySelector('.modal-value input')
   let modalBodydescricao = myModal.querySelector('.modal-body textarea')
   let modalBodycheck = myModal.querySelector('.form-check input')
+  let modalBodyimg = myModaleditar.querySelector('.modal-img input')
 
+  modalBodyimg.value = ""
   modalBodynome.value = nome
   modalBodyvalor.value = valor
   modalBodydescricao.value = descricao
@@ -527,7 +526,9 @@
   let modalBodydescricao = myModaleditar.querySelector('.modal-descricao textarea')
   let modalBodyidprato = myModaleditar.querySelector('.modal-idprato input')
   let modalBodycheck = myModaleditar.querySelector('.form-check input')
+  let modalBodyimg = myModaleditar.querySelector('.modal-img input')
 
+  modalBodyimg.value = ""
   modalBodynome.value = nome
   modalBodyvalor.value = valor
   modalBodydescricao.value = descricao
@@ -543,7 +544,9 @@
   let descricao = button.getAttribute('data-descricao')
   
   let modalBodydescricao = modalPerfil.querySelector('.modal-body textarea')
+  let modalBodyimg = myModaleditar.querySelector('.modal-img input')
 
+  modalBodyimg.value = ""
   modalBodydescricao.value = descricao
 })
 </script>
