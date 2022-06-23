@@ -10,15 +10,6 @@ const bcrypt = require('bcrypt');
 const Session = require('../models/Session');
 const { Model } = require('mongoose');
 const path = require("path");
-/*
-router.get('/p/:nome', function(req, res) {
-    User.findOne({ 'nome': req.params.nome }, function (err, data) {
-        res.setHeader('Email', data.email)
-        //console.log(res);
-        res.redirect(301,"/menu/");
-    });
-});
-*/
 
 //Signup
 router.post('/signup', checkRegister, (req, res) => {
@@ -111,17 +102,7 @@ router.post('/signup', checkRegister, (req, res) => {
 router.post('/update', (req, res) => {
     const token = req.cookies['userToken']
     jwt.verify(token, process.env.SECRET, function (errorVerify, decoded) {
-        /*
-        console.log(decoded);
-        console.log(decoded.exp);
-        console.log(decoded.iat);
-        let expData = new Date();
-        let isTime = new Date();
-        expData.setTime = new Date(decoded.exp);
-        isTime.setTime = new Date(decoded.iat);
-        console.log(expData);
-        console.log(isTime);
-        */
+
         if (errorVerify) {
             console.log("Ocorreu um erro (update)")
             res.redirect('/')
@@ -137,17 +118,17 @@ router.post('/update', (req, res) => {
                             res.redirect('/')
                         } else if (decoded.id == funduser.email) {
 
-                            funduser.nome = req.body.nome;
-                            funduser.descricao = req.body.descricao;
-                            funduser.bglink = req.body.bglink;
-                            funduser.mapalink = req.body.mapalink;
-                            funduser.horario = req.body.horario;
-                            funduser.telefone = req.body.telefone;
+                            if(req.body.descricao != null){
+                                funduser.descricao = req.body.descricao;
+                            }
+                            if(req.body.bglink != null){
+                                funduser.bglink = req.body.bglink;
+                            }                         
 
                             funduser.save();
 
                             console.log("Usuário atualizado (Update)")
-                            res.redirect('/')
+                            res.redirect('/menu/perfil')
                         } else {
                             console.log("Usuário não corresponde (Update)")
                             res.redirect('/')
@@ -195,26 +176,11 @@ router.post('/signin', (req, res) => {
                             Session.find({ 'email': id }, function (err, data) {
                                 //console.log(data)
                                 if (data.length > 0) {
-                                    /*
-                                    res.json({
-                                        success: true,
-                                        message: 'Enjoy your token!',
-                                        token: token // este token é para guardar!
-                                    });
-                                    */
-                                    //console.log(token)
                                     res.cookie("userToken", token, {maxAge: 1800000});
                                     res.redirect('/menu/perfil')
                                 } else {
                                     let data = new Session(item);
                                     data.save();
-                                    /*
-                                    res.json({
-                                        success: true,
-                                        message: 'Enjoy your token!',
-                                        token: token // este token é para guardar!
-                                    });
-                                    */
                                     res.cookie("userToken", token);
                                     res.redirect('/menu/perfil')
                                 }

@@ -153,6 +153,7 @@
                     data-imagem="<%=prato.linkimagem %>"
                     data-descricao="<%=prato.descricao %>"
                     data-valor="<%=prato.preco %>"
+                    data-id="<%=prato._id %>"
                     ></a>
                 </div>
                 <div class="menu-ingredients">
@@ -219,6 +220,7 @@
                               data-imagem="<%=especial.linkimagem%>"
                               data-descricao="<%=especial.descricao %>"
                               data-valor="<%=especial.preco %>"
+                              data-id="<%=especial._id %>"
                               data-check="checked"
                               ></a></h3>
                             <a>R$<%=especial.preco %></a>
@@ -240,6 +242,7 @@
                               data-imagem="<%=especial.linkimagem %>"
                               data-descricao="<%=especial.descricao %>"
                               data-valor="<%=especial.preco %>"
+                              data-id="<%=especial._id %>"
                               data-check="checked"
                               ></a></h3>
                             <a>R$<%=especial.preco %></a>
@@ -370,16 +373,16 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-         <h5 class="modal-title">Editando</h5>
+         <h5 class="modal-title">Criando</h5>
          <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body container">
-          <form action= "/menu/new" id = "Createmenu" name = "CreatemenuForm" method="post">
+          <form action= "/menu/new" id = "Createmenu" name = "CreatemenuForm" method="post" encType="multipart/form-data">
            <div class="modal-name mb-3">
-             <input type="text" name="nome" id="txtNome" class="form-control" placeholder="Nome">
+             <input type="text" name="nome" id="txtNome" class="form-control" placeholder="Nome" required>
            </div>
            <div class="modal-value mb-3">
-            <input type="number" name="preco" id="txtValor" class="form-control" placeholder="Valor">
+            <input type="number" name="preco" id="txtValor" class="form-control" placeholder="Valor" required>
            </div>
            <div class="mb-3">
             <textarea class="form-control" name="descricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
@@ -390,18 +393,11 @@
               É um especial? 
             </label>
           </div>
-           <div class="modal-img row mb-3">
-            <div class="col-lg-3">
-              <img style = "width: 85px; height: 85px; ; border-radius: 50%; float: left; border: 5px solid rgba(255, 255, 255, 0.2);"src="https://imgur.com/FZ6RVun.jpg" id="img" name="img" height="200px">           
-              <input type="file" id="file">
-             </div>
-             <div class="invisible">
-              <p name="url" id="url"></p>
-             </div>
+           <div class="modal-img mb-3">
+              <input type="file" id="file" name="file" required>
            </div>
            <div class="mb-3">  
             <br>     
-            <button type="submit" name="Deletar" class="btn btn-danger view_data">Deletar</button>
             <button type="submit" name="Salvar" class="btn btn-primary view_data">Salvar</button>
            </div>
           </form>
@@ -420,14 +416,14 @@
          <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body container">
-          <form action= "/menu/edit" id = "Createmenu" name = "CreatemenuForm" method="post">
+          <form action= "/menu/edit" id = "Createmenu" name = "CreatemenuForm" method="post" encType="multipart/form-data">
            <div class="modal-name mb-3">
              <input type="text" name="nome" id="txtNome" class="form-control" placeholder="Nome">
            </div>
            <div class="modal-value mb-3">
             <input type="number" name="preco" id="txtValor" class="form-control" placeholder="Valor">
            </div>
-           <div class="mb-3">
+           <div class="modal-descricao mb-3">
             <textarea class="form-control" name="descricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
            </div>
            <div class="form-check mb-3">
@@ -437,13 +433,15 @@
             </label>
           </div>
            <div class="modal-img row mb-3">
-            <div class="col-lg-3">
-              <img style = "width: 85px; height: 85px; ; border-radius: 50%; float: left; border: 5px solid rgba(255, 255, 255, 0.2);"src="https://imgur.com/FZ6RVun.jpg" id="img" name="img" height="200px">           
-              <input type="file" id="file">
+            <div class="col-lg-3">          
+              <input type="file" id="file" name="file">
              </div>
              <div class="invisible">
               <p name="url" id="url"></p>
              </div>
+           </div>
+           <div class="modal-idprato invisible">
+            <input type="text" name="idprato" id="idprato" class="form-control" placeholder="IdPrato">
            </div>
            <div class="mb-3">  
             <br>     
@@ -462,22 +460,16 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-         <h5 class="modal-title">Editando</h5>
+         <h5 class="modal-title">Perfil</h5>
          <button types="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body container">
-          <form action= "/user/update" id = "Createmenu" name = "CreatemenuForm" method="post">
+          <form action= "/user/update" id = "Createmenu" name = "CreatemenuForm" method="post" encType="multipart/form-data">
              <div>
              <label class="form-label">Imagem de perfil:</label>
             </div>
             <div class="row mb-3">
-             <div class="d-flex justify-content-center align-items-center mb-3">
-               <img class="border border-secondary border-1 rounded" style="border:0; width: 90%; height: 235px;"src="https://imgur.com/FZ6RVun.jpg" id="img" height="235px">           
-             </div>
-             <div class="invisible">
-              <p name="url" id="url"></p>
-             </div>
-             <input type="file" id="file">
+             <input type="file" id="file" name="file">
             </div>
            <div class="mb-3">
             <label class="form-label">Diga algo sobre seu restaurante:</label>
@@ -485,7 +477,6 @@
            </div>
            <div class="mb-3">  
             <br>     
-            <button type="submit" name="Deletar" class="btn btn-danger view_data">Deletar</button>
             <button type="submit" name="Salvar" class="btn btn-primary view_data">Salvar</button>
            </div>
           </form>
@@ -503,22 +494,17 @@
   let nome = button.getAttribute('data-nome')
   let valor = button.getAttribute('data-valor')
   let descricao = button.getAttribute('data-descricao')
-  let imagem = button.getAttribute('data-imagem')
   let check = button.getAttribute('data-check')
   valor = valor.replace(',','.')
   
   let modalBodynome = myModal.querySelector('.modal-name input')
   let modalBodyvalor = myModal.querySelector('.modal-value input')
   let modalBodydescricao = myModal.querySelector('.modal-body textarea')
-  let modalBodyimagem = myModal.querySelector('.modal-img img')
-  let modalBodyimageminput = myModaleditar.querySelector('.modal-img input')
   let modalBodycheck = myModal.querySelector('.form-check input')
 
   modalBodynome.value = nome
   modalBodyvalor.value = valor
   modalBodydescricao.value = descricao
-  modalBodyimagem.src = imagem
-  modalBodyimageminput = imagem
   modalBodycheck.checked = check
 })
 </script>
@@ -530,22 +516,22 @@
   let nome = button.getAttribute('data-nome')
   let valor = button.getAttribute('data-valor')
   let descricao = button.getAttribute('data-descricao')
-  let imagem = button.getAttribute('data-imagem')
   let check = button.getAttribute('data-check')
+  let idprato = button.getAttribute('data-id')
   valor = valor.replace(',','.')
-  
+
+
+
   let modalBodynome = myModaleditar.querySelector('.modal-name input')
   let modalBodyvalor = myModaleditar.querySelector('.modal-value input')
-  let modalBodydescricao = myModaleditar.querySelector('.modal-body textarea')
-  let modalBodyimagem = myModaleditar.querySelector('.modal-img img')
-  let modalBodyimageminput = myModaleditar.querySelector('.modal-img input')
+  let modalBodydescricao = myModaleditar.querySelector('.modal-descricao textarea')
+  let modalBodyidprato = myModaleditar.querySelector('.modal-idprato input')
   let modalBodycheck = myModaleditar.querySelector('.form-check input')
 
   modalBodynome.value = nome
   modalBodyvalor.value = valor
   modalBodydescricao.value = descricao
-  modalBodyimagem.src = imagem
-  modalBodyimageminput = imagem
+  modalBodyidprato.value = idprato
   modalBodycheck.checked = check
 })
 </script>
@@ -555,39 +541,11 @@
   modalPerfil.addEventListener('show.bs.modal', function (event) {
   let button = event.relatedTarget
   let descricao = button.getAttribute('data-descricao')
-  let imagem = button.getAttribute('data-imagem')
   
   let modalBodydescricao = modalPerfil.querySelector('.modal-body textarea')
-  let modalBodyimagem = modalPerfil.querySelector('.modal-body img')
 
   modalBodydescricao.value = descricao
-  modalBodyimagem.src = imagem
 })
-</script>
-
-<script>
-  const file = document.getElementById("file")
-  const img = document.getElementById("img")
-  const url=document.getElementById("url")
-  console.log("test_1")
-  file.addEventListener("change", ev => {
-      console.log(ev)
-      const formdata = new FormData()
-      formdata.append("image", ev.target.files[0])
-      fetch("https://api.imgur.com/3/upload", {
-          method: "post",
-          headers: {
-              Authorization: "Client - ID d44baf18ef10094"
-          }, 
-          body: formdata
-      
-      }).then(data => data.json()).then(data => {
-          img.src=data.data.link
-          url.innerText=data.data.link
-          console.log(data)
-          console.log("Test_2")
-      })
-  })
 </script>
   
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script> 
