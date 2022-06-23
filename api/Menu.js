@@ -184,7 +184,7 @@ router.post('/delete', (req, res) => {
         } else {
             Session.find({ 'email': decoded.id }, function (errorSession, data) {
                 if (data.length > 0) {
-                    let id = req.body.idprato;
+                    let id = req.body.iddelete;
 
                     Menu.findById(id, function (errorFindById, doc) {
                         if (errorFindById || doc == null) {

@@ -221,7 +221,7 @@
                               data-descricao="<%=especial.descricao %>"
                               data-valor="<%=especial.preco %>"
                               data-id="<%=especial._id %>"
-                              data-check="checked"
+                              data-check="2"
                               ></a></h3>
                             <a>R$<%=especial.preco %></a>
                             <p class="fst-italic"><%=especial.descricao %></p>
@@ -388,8 +388,8 @@
             <textarea class="form-control" name="descricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
            </div>
            <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" name="esp" type="checkbox" id="esp">
+            <label class="form-check-label" for="esp">
               É um especial? 
             </label>
           </div>
@@ -427,8 +427,8 @@
             <textarea class="form-control" name="descricao" id="txtDescricao" placeholder="De uma descricao ao item!"></textarea>
            </div>
            <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" name="esp" type="checkbox" id="esp">
+            <label class="form-check-label" for="esp">
               É um especial? 
             </label>
           </div>
@@ -440,11 +440,15 @@
            <div class="modal-idprato invisible">
             <input type="text" name="idprato" id="idprato" class="form-control" placeholder="IdPrato">
            </div>
-           <div class="mb-3">  
-            <br>     
-            <button type="submit" name="Deletar" class="btn btn-danger view_data">Deletar</button>
+           <div class="mb-3">    
             <button type="submit" name="Salvar" class="btn btn-primary view_data">Salvar</button>
            </div>
+          </form>
+          <form action="/menu/delete" method="post">
+            <button type="submit" name="Deletar" class="btn btn-danger view_data">Deletar</button>
+            <div class="modal-iddelete invisible">
+              <input type="text" name="iddelete" id="iddelete" class="form-control">
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -525,6 +529,7 @@
   let modalBodyvalor = myModaleditar.querySelector('.modal-value input')
   let modalBodydescricao = myModaleditar.querySelector('.modal-descricao textarea')
   let modalBodyidprato = myModaleditar.querySelector('.modal-idprato input')
+  let modalBodyiddelete = myModaleditar.querySelector('.modal-iddelete input')
   let modalBodycheck = myModaleditar.querySelector('.form-check input')
   let modalBodyimg = myModaleditar.querySelector('.modal-img input')
 
@@ -533,6 +538,7 @@
   modalBodyvalor.value = valor
   modalBodydescricao.value = descricao
   modalBodyidprato.value = idprato
+  modalBodyiddelete.value = idprato
   modalBodycheck.checked = check
 })
 </script>
