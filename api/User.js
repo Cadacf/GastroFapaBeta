@@ -11,6 +11,10 @@ const Session = require('../models/Session');
 const { Model } = require('mongoose');
 const path = require("path");
 
+const { ImgurClient } = require('imgur');
+const client = new ImgurClient({ clientId: process.env.IMGURID });
+const fs = require('fs')
+
 //Signup
 router.post('/signup', checkRegister, (req, res) => {
     let { nome, email, senha, descricao, bglink, mapalink, horario, telefone } = req.body;
@@ -111,24 +115,47 @@ router.post('/update', (req, res) => {
                 if (data.length > 0) {
 
                     User.findOne({ 'email': decoded.id }, function (errorUser, funduser) {
-
                         console.log(funduser.email);
                         if (errorUser || funduser == null) {
                             console.log("Documento vazio (Update)")
                             res.redirect('/')
                         } else if (decoded.id == funduser.email) {
 
-                            if(req.body.descricao != null){
+                            if (req.files == null) {
+
                                 funduser.descricao = req.body.descricao;
+
+                                funduser.save();
+
+                                console.log("Usuário atualizado (Update)")
+                                res.redirect('/menu/perfil')
+                            } else {
+                                let sampleFile = req.files.file
+                                let uploadPath = path.join(__dirname + './../public/upload/' + sampleFile.name)
+
+                                sampleFile.mv(uploadPath, async function (err) {
+                                    if (err) {
+                                        console.log(err)
+                                        res.redirect('/menu/perfil')
+                                    }
+
+                                    const response = await client.upload({
+                                        image: fs.createReadStream(uploadPath),
+                                        type: 'stream',
+                                    });
+
+                                    console.log(response.data.link);
+                                    fs.unlinkSync(uploadPath)
+
+                                    funduser.descricao = req.body.descricao;
+                                    funduser.bglink = response.data.link;
+
+                                    funduser.save();
+
+                                    console.log("Usuário atualizado (Update)")
+                                    res.redirect('/menu/perfil')
+                                })
                             }
-                            if(req.body.bglink != null){
-                                funduser.bglink = req.body.bglink;
-                            }                         
-
-                            funduser.save();
-
-                            console.log("Usuário atualizado (Update)")
-                            res.redirect('/menu/perfil')
                         } else {
                             console.log("Usuário não corresponde (Update)")
                             res.redirect('/')
@@ -176,7 +203,7 @@ router.post('/signin', (req, res) => {
                             Session.find({ 'email': id }, function (err, data) {
                                 //console.log(data)
                                 if (data.length > 0) {
-                                    res.cookie("userToken", token, {maxAge: 1800000});
+                                    res.cookie("userToken", token, { maxAge: 1800000 });
                                     res.redirect('/menu/perfil')
                                 } else {
                                     let data = new Session(item);
@@ -234,7 +261,7 @@ function checkRegister(req, res, next) {
     if (registerCheck) {
         console.log("Registro Ativado")
         next()
-    }else{
+    } else {
         console.log("Registro desativado")
         return res.redirect('/')
     }
